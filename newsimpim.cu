@@ -15,9 +15,9 @@ namespace pim
     thrust::device_vector<int> smem(Numberofcrossbar*Numberofcolumns); // This is the memory for the crossbar. The crossbar outputs are accumulated here where the shift and add takes place
     thrust::host_vector<int> h_inputmatrix(M*N, 0); // Host Input Matrix 
     thrust::device_vector<int> d_input(M,0); // Device Input
-    thrust::device_vector<int> weightmemory(Numberofcrossbar*Numberofcolumns*Numberofrows,0);
-    thrust::host_vector<int> weightmemhost(Numberofcrossbar*Numberofcolumns*Numberofrows,0);
-    thrust::device_vector<float> d_smem(Numberofcrossbar*Numberofrows*Numberofcolumns,0);
+    thrust::device_vector<int> weightmemory(Numberofcrossbar*Numberofcolumns*Numberofrows,0); // This is the Crossbar Memory
+    thrust::host_vector<int> weightmemhost(Numberofcrossbar*Numberofcolumns*Numberofrows,0); // This is Crossbar Memory but on the host,(before copying to the crossbar)
+    thrust::device_vector<float> d_smem(Numberofcrossbar*Numberofrows*Numberofcolumns,0); // This is the global device Memory on GPU
     /*
     cols should basically be a total cap on the number of the columsn totally including all the crossbars
     xsize is the x dimension of each vector
@@ -167,6 +167,7 @@ __global__ void matrixMultiplyShared(float* A, float* B, float* C, int N, int M)
     float Cvalue = 0.0;
 
     for (int t = 0; t < (M + TILE_WIDTH - 1) / TILE_WIDTH; ++t) {
+        //Computing Transpose
         if (Row < N && t * TILE_WIDTH + tx < M)
             As[ty][tx] = A[Row * M + t * TILE_WIDTH + tx];
         else
@@ -178,7 +179,7 @@ __global__ void matrixMultiplyShared(float* A, float* B, float* C, int N, int M)
             Bs[ty][tx] = 0.0;
 
         __syncthreads();
-
+        //Computing the Matrix Mutliplication
         for (int i = 0; i < TILE_WIDTH; ++i) {
             Cvalue += As[ty][i] * Bs[i][tx];
         }
