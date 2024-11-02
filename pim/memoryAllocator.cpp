@@ -1,3 +1,4 @@
+#include "constants.h"
 namespace pim
 {
   bool GPU[BUFFER_SIZE];
@@ -27,18 +28,19 @@ namespace pim
   }
 
  
-  RangeMask tracker_Xbar(int size)
+  RangeMask tracker_Xbar(int num_rows,int num_cols)
   {
-     int req_num_Xbar = size/Numberofcolumns;
+     int num_cols_per_row = num_rows/Numberofrows;
+     int req_num_Xbar_cols = num_cols_per_row*num_cols;
      int start_idx = 0;
      RangeMask xbar_allotted;
   
-     while(start_idx < req_num_Xbar-size+1)
+     while(start_idx < Numberofcrossbars*Numberofcolumns - req_num_Xbar_cols + 1)
      {
          bool found = false;
          int allocator_idx = 0;
 
-         for(int allocator_idx = start_idx; allocator_idx < req_num_Xbar; allocator_idx++)
+         for(int allocator_idx = start_idx; allocator_idx < req_num_Xbar_cols; allocator_idx++)
          {
              if(Xbar[allocator_idx] == true)
              {

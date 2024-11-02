@@ -19,9 +19,9 @@ namespace pim {
      /* Represents a generic range-based mask (e.g., {start, start + step, ..., stop}, inclusive)
      */
     struct RangeMask {
-          struct xbar_col_add{
-              int num_xbar;
-              int num_col;
+          struct xbar{
+              int xbar_idx;
+              int col_idx;
 
           }start,end;
     };

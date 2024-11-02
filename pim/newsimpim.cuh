@@ -27,13 +27,17 @@ namespace pim
     }
     inline void initialisecrossbar()
     {
-       thrust::fill(weightmemory.begin(), weightmemory.end(), 2);
+       thrust::fill(weightmemory.begin(), weightmemory.end(), 0);
     }
 
-    inline void loadweightstopim(int* weightmatrix, int crossbarnumber,int size)
+    inline void load_values_xbar(int* values, int offset,int size)
     {
-        thrust::copy(weightmatrix,weightmatrix + size,weightmemory.begin()+crossbarnumber*Numberofcolumns*Numberofrows);
+        thrust::copy(values, values + size, weightmemory.begin() + offset);
+    }
 
+    inline void load_values_GPU(int* values, int reg_start,int size)
+    {
+        thrust::copy(values, values + size, gpu_mem.begin() + reg_start);
     }
     inline void copyfromXbartoGPU(int Xstart,int Xend,int GPUstart)
     {
