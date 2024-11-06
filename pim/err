@@ -1,0 +1,199 @@
+In file included from /home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/cuda_runtime_api.h:148,
+                 from /home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/cub/detail/detect_cuda_runtime.cuh:38,
+                 from /home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/cub/util_arch.cuh:41,
+                 from /home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/cub/util_debug.cuh:40,
+                 from /home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/system/cuda/config.h:43,
+                 from /home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/system/cuda/detail/execution_policy.h:35,
+                 from /home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/iterator/detail/device_system_tag.h:23,
+                 from /home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/iterator/detail/iterator_facade_category.h:22,
+                 from /home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/iterator/iterator_facade.h:37,
+                 from /home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/iterator/iterator_adaptor.h:36,
+                 from /home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/iterator/detail/normal_iterator.h:27,
+                 from /home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/vector_base.h:25,
+                 from /home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/host_vector.h:27,
+                 from driver.cuh:4,
+                 from GPUmat.h:5,
+                 from weight.h:5,
+                 from layer.cpp:3:
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/crt/host_defines.h:86: warning: "__forceinline__" redefined
+   86 | #define __forceinline__ \
+      | 
+In file included from /home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/cuda/std/type_traits:14,
+                 from /home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/type_traits.h:27,
+                 from /home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/iterator/iterator_facade.h:36:
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/cuda/std/detail/__config:39: note: this is the location of the previous definition
+   39 |         #define __forceinline__
+      | 
+In file included from driver.cuh:8:
+newsimpim.cuh: In function 'void pim::vectormultiplication(float*, int*, int*, int, int, int, int)':
+newsimpim.cuh:47:18: error: 'threadIdx' was not declared in this scope
+   47 |          int tid=threadIdx.x+blockIdx.x*blockDim.x;
+      |                  ^~~~~~~~~
+newsimpim.cuh:47:30: error: 'blockIdx' was not declared in this scope
+   47 |          int tid=threadIdx.x+blockIdx.x*blockDim.x;
+      |                              ^~~~~~~~
+newsimpim.cuh:47:41: error: 'blockDim' was not declared in this scope
+   47 |          int tid=threadIdx.x+blockIdx.x*blockDim.x;
+      |                                         ^~~~~~~~
+newsimpim.cuh:61:13: error: '__syncthreads' was not declared in this scope
+   61 |             __syncthreads();
+      |             ^~~~~~~~~~~~~
+newsimpim.cuh: In function 'void pim::softmax(float*, int, int, int, int)':
+newsimpim.cuh:89:19: error: 'blockIdx' was not declared in this scope
+   89 |         int row = blockIdx.y * blockDim.y + threadIdx.y;
+      |                   ^~~~~~~~
+newsimpim.cuh:89:32: error: 'blockDim' was not declared in this scope
+   89 |         int row = blockIdx.y * blockDim.y + threadIdx.y;
+      |                                ^~~~~~~~
+newsimpim.cuh:89:45: error: 'threadIdx' was not declared in this scope
+   89 |         int row = blockIdx.y * blockDim.y + threadIdx.y;
+      |                                             ^~~~~~~~~
+newsimpim.cuh:96:23: error: 'fmax' was not declared in this scope; did you mean 'softmax'?
+   96 |             max_val = fmax(max_val, gpu_mem[row * num_cols + in_start + i]);
+      |                       ^~~~
+      |                       softmax
+newsimpim.cuh:100:27: error: 'exp' was not declared in this scope
+  100 |         float numerator = exp(gpu_mem[row * num_cols + col + in_start] - max_val);
+      |                           ^~~
+newsimpim.cuh: In function 'void pim::scalardiv(float*, int, int, int, int)':
+newsimpim.cuh:113:18: error: 'threadIdx' was not declared in this scope
+  113 |        int tid = threadIdx.x;
+      |                  ^~~~~~~~~
+newsimpim.cuh: In function 'void pim::matrixMultiplyShared(float*, int, int, int, int, int)':
+newsimpim.cuh:122:14: error: 'blockIdx' was not declared in this scope
+  122 |     int bx = blockIdx.x;
+      |              ^~~~~~~~
+newsimpim.cuh:124:14: error: 'threadIdx' was not declared in this scope
+  124 |     int tx = threadIdx.x;
+      |              ^~~~~~~~~
+newsimpim.cuh:143:9: error: '__syncthreads' was not declared in this scope
+  143 |         __syncthreads();
+      |         ^~~~~~~~~~~~~
+driver.cuh: In function 'void pim::matrix_multiplication(int*, int, int, int, int, char, int)':
+driver.cuh:39:27: error: expected primary-expression before '<' token
+   39 |     vectormultiplication<<<256,256,Numberofcrossbar*Numberofcolumns*sizeof(float), streams[i]>>>(
+      |                           ^
+driver.cuh:39:96: error: expected primary-expression before '>' token
+   39 |     vectormultiplication<<<256,256,Numberofcrossbar*Numberofcolumns*sizeof(float), streams[i]>>>(
+      |                                                                                                ^
+driver.cuh: In function 'void pim::GPUmatmult(int, int, int, int, int)':
+driver.cuh:65:27: error: expected primary-expression before '<' token
+   65 |     matrixMultiplyShared<<<dim3(1,1),dim3(16,16),2*TILE_WIDTH*TILE_WIDTH*sizeof(float)>>>(thrust::raw_pointer_cast(gpu_mem.data()),0,20,520, 4, 4);
+      |                           ^
+driver.cuh:65:89: error: expected primary-expression before '>' token
+   65 |     matrixMultiplyShared<<<dim3(1,1),dim3(16,16),2*TILE_WIDTH*TILE_WIDTH*sizeof(float)>>>(thrust::raw_pointer_cast(gpu_mem.data()),0,20,520, 4, 4);
+      |                                                                                         ^
+driver.cuh: In function 'void pim::softmaxDr(int, int, int, int)':
+driver.cuh:71:10: error: expected primary-expression before '<' token
+   71 | softmax<<<256,256>>>(thrust::raw_pointer_cast(gpu_mem.data()),in_start_reg,out_start_reg,num_rows,num_cols);
+      |          ^
+driver.cuh:71:20: error: expected primary-expression before '>' token
+   71 | softmax<<<256,256>>>(thrust::raw_pointer_cast(gpu_mem.data()),in_start_reg,out_start_reg,num_rows,num_cols);
+      |                    ^
+driver.cuh: In function 'void pim::scalardivDr(int, int, int, int, int)':
+driver.cuh:77:12: error: expected primary-expression before '<' token
+   77 | scalardiv<<<256,256>>>(thrust::raw_pointer_cast(gpu_mem.data()),in_start,out_start,num_rows*num_cols,scale);
+      |            ^
+driver.cuh:77:22: error: expected primary-expression before '>' token
+   77 | scalardiv<<<256,256>>>(thrust::raw_pointer_cast(gpu_mem.data()),in_start,out_start,num_rows*num_cols,scale);
+      |                      ^
+In file included from /home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/internal_functional.h:27,
+                 from /home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/system/detail/generic/copy.inl:22,
+                 from /home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/system/detail/generic/copy.h:57,
+                 from /home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/copy.inl:22,
+                 from /home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/copy.h:90,
+                 from /home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/allocator/copy_construct_range.inl:23,
+                 from /home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/allocator/copy_construct_range.h:45,
+                 from /home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/contiguous_storage.inl:23,
+                 from /home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/contiguous_storage.h:234,
+                 from /home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/vector_base.h:30:
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/system/detail/generic/for_each.h: In instantiation of 'InputIterator thrust::system::detail::generic::for_each(thrust::execution_policy<Derived>&, InputIterator, InputIterator, UnaryFunction) [with DerivedPolicy = thrust::cuda_cub::tag; InputIterator = thrust::detail::normal_iterator<thrust::device_ptr<float> >; UnaryFunction = thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >]':
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/for_each.inl:40:18:   required from 'InputIterator thrust::for_each(const detail::execution_policy_base<DerivedPolicy>&, InputIterator, InputIterator, UnaryFunction) [with DerivedPolicy = cuda_cub::tag; InputIterator = detail::normal_iterator<device_ptr<float> >; UnaryFunction = detail::device_generate_functor<detail::fill_functor<int> >]'
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/system/detail/generic/generate.inl:61:19:   required from 'void thrust::system::detail::generic::generate(thrust::execution_policy<Derived>&, ForwardIterator, ForwardIterator, Generator) [with ExecutionPolicy = thrust::cuda_cub::tag; ForwardIterator = thrust::detail::normal_iterator<thrust::device_ptr<float> >; Generator = thrust::detail::fill_functor<int>]'
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/generate.inl:40:18:   required from 'void thrust::generate(const detail::execution_policy_base<DerivedPolicy>&, ForwardIterator, ForwardIterator, Generator) [with DerivedPolicy = cuda_cub::tag; ForwardIterator = detail::normal_iterator<device_ptr<float> >; Generator = detail::fill_functor<int>]'
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/system/detail/generic/fill.h:53:19:   required from 'void thrust::system::detail::generic::fill(thrust::execution_policy<Derived>&, ForwardIterator, ForwardIterator, const T&) [with DerivedPolicy = thrust::cuda_cub::tag; ForwardIterator = thrust::detail::normal_iterator<thrust::device_ptr<float> >; T = int]'
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/fill.inl:38:14:   required from 'void thrust::fill(const detail::execution_policy_base<DerivedPolicy>&, ForwardIterator, ForwardIterator, const T&) [with DerivedPolicy = cuda_cub::tag; ForwardIterator = detail::normal_iterator<device_ptr<float> >; T = int]'
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/fill.inl:67:15:   required from 'void thrust::fill(ForwardIterator, ForwardIterator, const T&) [with ForwardIterator = detail::normal_iterator<device_ptr<float> >; T = int]'
+newsimpim.cuh:20:21:   required from here
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/system/detail/generic/for_each.h:48:69: error: static assertion failed: unimplemented for this system
+   48 |     (thrust::detail::depend_on_instantiation<InputIterator, false>::value)
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/static_assert.h:50:58: note: in definition of macro 'THRUST_STATIC_ASSERT_MSG'
+   50 | #  define THRUST_STATIC_ASSERT_MSG(B, msg) static_assert(B, msg)
+      |                                                          ^
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/system/detail/generic/for_each.h:48:69: note: 'thrust::detail::depend_on_instantiation<thrust::detail::normal_iterator<thrust::device_ptr<float> >, false>::value' evaluates to false
+   48 |     (thrust::detail::depend_on_instantiation<InputIterator, false>::value)
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/static_assert.h:50:58: note: in definition of macro 'THRUST_STATIC_ASSERT_MSG'
+   50 | #  define THRUST_STATIC_ASSERT_MSG(B, msg) static_assert(B, msg)
+      |                                                          ^
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/system/detail/generic/for_each.h: In instantiation of 'InputIterator thrust::system::detail::generic::for_each(thrust::execution_policy<Derived>&, InputIterator, InputIterator, UnaryFunction) [with DerivedPolicy = thrust::cuda_cub::tag; InputIterator = thrust::detail::normal_iterator<thrust::device_ptr<int> >; UnaryFunction = thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >]':
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/for_each.inl:40:18:   required from 'InputIterator thrust::for_each(const detail::execution_policy_base<DerivedPolicy>&, InputIterator, InputIterator, UnaryFunction) [with DerivedPolicy = cuda_cub::tag; InputIterator = detail::normal_iterator<device_ptr<int> >; UnaryFunction = detail::device_generate_functor<detail::fill_functor<int> >]'
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/system/detail/generic/generate.inl:61:19:   required from 'void thrust::system::detail::generic::generate(thrust::execution_policy<Derived>&, ForwardIterator, ForwardIterator, Generator) [with ExecutionPolicy = thrust::cuda_cub::tag; ForwardIterator = thrust::detail::normal_iterator<thrust::device_ptr<int> >; Generator = thrust::detail::fill_functor<int>]'
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/generate.inl:40:18:   required from 'void thrust::generate(const detail::execution_policy_base<DerivedPolicy>&, ForwardIterator, ForwardIterator, Generator) [with DerivedPolicy = cuda_cub::tag; ForwardIterator = detail::normal_iterator<device_ptr<int> >; Generator = detail::fill_functor<int>]'
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/system/detail/generic/fill.h:53:19:   required from 'void thrust::system::detail::generic::fill(thrust::execution_policy<Derived>&, ForwardIterator, ForwardIterator, const T&) [with DerivedPolicy = thrust::cuda_cub::tag; ForwardIterator = thrust::detail::normal_iterator<thrust::device_ptr<int> >; T = int]'
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/fill.inl:38:14:   required from 'void thrust::fill(const detail::execution_policy_base<DerivedPolicy>&, ForwardIterator, ForwardIterator, const T&) [with DerivedPolicy = cuda_cub::tag; ForwardIterator = detail::normal_iterator<device_ptr<int> >; T = int]'
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/fill.inl:67:15:   required from 'void thrust::fill(ForwardIterator, ForwardIterator, const T&) [with ForwardIterator = detail::normal_iterator<device_ptr<int> >; T = int]'
+newsimpim.cuh:28:20:   required from here
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/system/detail/generic/for_each.h:48:69: error: static assertion failed: unimplemented for this system
+   48 |     (thrust::detail::depend_on_instantiation<InputIterator, false>::value)
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/static_assert.h:50:58: note: in definition of macro 'THRUST_STATIC_ASSERT_MSG'
+   50 | #  define THRUST_STATIC_ASSERT_MSG(B, msg) static_assert(B, msg)
+      |                                                          ^
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/system/detail/generic/for_each.h:48:69: note: 'thrust::detail::depend_on_instantiation<thrust::detail::normal_iterator<thrust::device_ptr<int> >, false>::value' evaluates to false
+   48 |     (thrust::detail::depend_on_instantiation<InputIterator, false>::value)
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/static_assert.h:50:58: note: in definition of macro 'THRUST_STATIC_ASSERT_MSG'
+   50 | #  define THRUST_STATIC_ASSERT_MSG(B, msg) static_assert(B, msg)
+      |                                                          ^
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/system/detail/generic/for_each.h: In instantiation of 'InputIterator thrust::system::detail::generic::for_each_n(thrust::execution_policy<Derived>&, InputIterator, Size, UnaryFunction) [with DerivedPolicy = thrust::cuda_cub::tag; InputIterator = thrust::device_ptr<int>; Size = long unsigned int; UnaryFunction = thrust::detail::device_generate_functor<thrust::detail::fill_functor<int> >]':
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/for_each.inl:67:20:   required from 'InputIterator thrust::for_each_n(const detail::execution_policy_base<DerivedPolicy>&, InputIterator, Size, UnaryFunction) [with DerivedPolicy = cuda_cub::tag; InputIterator = device_ptr<int>; Size = long unsigned int; UnaryFunction = detail::device_generate_functor<detail::fill_functor<int> >]'
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/system/detail/generic/generate.inl:93:28:   required from 'OutputIterator thrust::system::detail::generic::generate_n(thrust::execution_policy<Derived>&, OutputIterator, Size, Generator) [with ExecutionPolicy = thrust::cuda_cub::tag; OutputIterator = thrust::device_ptr<int>; Size = long unsigned int; Generator = thrust::detail::fill_functor<int>]'
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/generate.inl:56:20:   required from 'OutputIterator thrust::generate_n(const detail::execution_policy_base<DerivedPolicy>&, OutputIterator, Size, Generator) [with DerivedPolicy = cuda_cub::tag; OutputIterator = device_ptr<int>; Size = long unsigned int; Generator = detail::fill_functor<int>]'
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/system/detail/generic/fill.h:42:28:   required from 'OutputIterator thrust::system::detail::generic::fill_n(thrust::execution_policy<Derived>&, OutputIterator, Size, const T&) [with DerivedPolicy = thrust::cuda_cub::tag; OutputIterator = thrust::device_ptr<int>; Size = long unsigned int; T = int]'
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/fill.inl:51:16:   required from 'OutputIterator thrust::fill_n(const detail::execution_policy_base<DerivedPolicy>&, OutputIterator, Size, const T&) [with DerivedPolicy = cuda_cub::tag; OutputIterator = device_ptr<int>; Size = long unsigned int; T = int]'
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/system/detail/generic/uninitialized_fill.inl:75:24:   [ skipping 4 instantiation contexts, use -ftemplate-backtrace-limit=0 to disable ]
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/allocator/default_construct_range.inl:106:58:   required from 'void thrust::detail::default_construct_range(Allocator&, Pointer, Size) [with Allocator = thrust::device_allocator<int>; Pointer = thrust::device_ptr<int>; Size = long unsigned int]'
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/contiguous_storage.inl:256:26:   required from 'void thrust::detail::contiguous_storage<T, Alloc>::default_construct_n(iterator, size_type) [with T = int; Alloc = thrust::device_allocator<int>; iterator = thrust::detail::normal_iterator<thrust::device_ptr<int> >; size_type = long unsigned int]'
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/vector_base.inl:245:34:   required from 'void thrust::detail::vector_base<T, Alloc>::default_init(size_type) [with T = int; Alloc = thrust::device_allocator<int>; size_type = long unsigned int]'
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/vector_base.inl:62:3:   required from 'thrust::detail::vector_base<T, Alloc>::vector_base(size_type) [with T = int; Alloc = thrust::device_allocator<int>; size_type = long unsigned int]'
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/device_vector.h:88:16:   required from 'thrust::device_vector<T, Alloc>::device_vector(size_type) [with T = int; Alloc = thrust::device_allocator<int>; size_type = long unsigned int]'
+newsimpim.cuh:14:90:   required from here
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/system/detail/generic/for_each.h:66:69: error: static assertion failed: unimplemented for this system
+   66 |     (thrust::detail::depend_on_instantiation<InputIterator, false>::value)
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/static_assert.h:50:58: note: in definition of macro 'THRUST_STATIC_ASSERT_MSG'
+   50 | #  define THRUST_STATIC_ASSERT_MSG(B, msg) static_assert(B, msg)
+      |                                                          ^
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/system/detail/generic/for_each.h:66:69: note: 'thrust::detail::depend_on_instantiation<thrust::device_ptr<int>, false>::value' evaluates to false
+   66 |     (thrust::detail::depend_on_instantiation<InputIterator, false>::value)
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/static_assert.h:50:58: note: in definition of macro 'THRUST_STATIC_ASSERT_MSG'
+   50 | #  define THRUST_STATIC_ASSERT_MSG(B, msg) static_assert(B, msg)
+      |                                                          ^
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/system/detail/generic/for_each.h: In instantiation of 'InputIterator thrust::system::detail::generic::for_each_n(thrust::execution_policy<Derived>&, InputIterator, Size, UnaryFunction) [with DerivedPolicy = thrust::cuda_cub::tag; InputIterator = thrust::device_ptr<float>; Size = long unsigned int; UnaryFunction = thrust::detail::device_generate_functor<thrust::detail::fill_functor<float> >]':
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/for_each.inl:67:20:   required from 'InputIterator thrust::for_each_n(const detail::execution_policy_base<DerivedPolicy>&, InputIterator, Size, UnaryFunction) [with DerivedPolicy = cuda_cub::tag; InputIterator = device_ptr<float>; Size = long unsigned int; UnaryFunction = detail::device_generate_functor<detail::fill_functor<float> >]'
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/system/detail/generic/generate.inl:93:28:   required from 'OutputIterator thrust::system::detail::generic::generate_n(thrust::execution_policy<Derived>&, OutputIterator, Size, Generator) [with ExecutionPolicy = thrust::cuda_cub::tag; OutputIterator = thrust::device_ptr<float>; Size = long unsigned int; Generator = thrust::detail::fill_functor<float>]'
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/generate.inl:56:20:   required from 'OutputIterator thrust::generate_n(const detail::execution_policy_base<DerivedPolicy>&, OutputIterator, Size, Generator) [with DerivedPolicy = cuda_cub::tag; OutputIterator = device_ptr<float>; Size = long unsigned int; Generator = detail::fill_functor<float>]'
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/system/detail/generic/fill.h:42:28:   required from 'OutputIterator thrust::system::detail::generic::fill_n(thrust::execution_policy<Derived>&, OutputIterator, Size, const T&) [with DerivedPolicy = thrust::cuda_cub::tag; OutputIterator = thrust::device_ptr<float>; Size = long unsigned int; T = float]'
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/fill.inl:51:16:   required from 'OutputIterator thrust::fill_n(const detail::execution_policy_base<DerivedPolicy>&, OutputIterator, Size, const T&) [with DerivedPolicy = cuda_cub::tag; OutputIterator = device_ptr<float>; Size = long unsigned int; T = float]'
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/system/detail/generic/uninitialized_fill.inl:75:24:   [ skipping 4 instantiation contexts, use -ftemplate-backtrace-limit=0 to disable ]
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/allocator/default_construct_range.inl:106:58:   required from 'void thrust::detail::default_construct_range(Allocator&, Pointer, Size) [with Allocator = thrust::device_allocator<float>; Pointer = thrust::device_ptr<float>; Size = long unsigned int]'
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/contiguous_storage.inl:256:26:   required from 'void thrust::detail::contiguous_storage<T, Alloc>::default_construct_n(iterator, size_type) [with T = float; Alloc = thrust::device_allocator<float>; iterator = thrust::detail::normal_iterator<thrust::device_ptr<float> >; size_type = long unsigned int]'
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/vector_base.inl:245:34:   required from 'void thrust::detail::vector_base<T, Alloc>::default_init(size_type) [with T = float; Alloc = thrust::device_allocator<float>; size_type = long unsigned int]'
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/vector_base.inl:62:3:   required from 'thrust::detail::vector_base<T, Alloc>::vector_base(size_type) [with T = float; Alloc = thrust::device_allocator<float>; size_type = long unsigned int]'
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/device_vector.h:88:16:   required from 'thrust::device_vector<T, Alloc>::device_vector(size_type) [with T = float; Alloc = thrust::device_allocator<float>; size_type = long unsigned int]'
+newsimpim.cuh:15:86:   required from here
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/system/detail/generic/for_each.h:66:69: error: static assertion failed: unimplemented for this system
+   66 |     (thrust::detail::depend_on_instantiation<InputIterator, false>::value)
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/static_assert.h:50:58: note: in definition of macro 'THRUST_STATIC_ASSERT_MSG'
+   50 | #  define THRUST_STATIC_ASSERT_MSG(B, msg) static_assert(B, msg)
+      |                                                          ^
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/system/detail/generic/for_each.h:66:69: note: 'thrust::detail::depend_on_instantiation<thrust::device_ptr<float>, false>::value' evaluates to false
+   66 |     (thrust::detail::depend_on_instantiation<InputIterator, false>::value)
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+/home/gayatri/miniconda3/envs/CUDAPIM/bin/../include/thrust/detail/static_assert.h:50:58: note: in definition of macro 'THRUST_STATIC_ASSERT_MSG'
+   50 | #  define THRUST_STATIC_ASSERT_MSG(B, msg) static_assert(B, msg)
+      |                                                          ^

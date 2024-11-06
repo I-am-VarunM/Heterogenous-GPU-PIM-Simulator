@@ -38,12 +38,12 @@ int main(int argc, char **argv)
             weightmemory[i] = 2;
 
         int* h_vector = (int*)malloc(sizeof(int)*M*N);
-        pim::loadweightstopim(weightmemory,0,total_size);
+       // pim::loadweightstopim(weightmemory,0,total_size);
         pim::matrix_multiplication(host,M,N,Xstart,Xend,'G',0);
 //        pim::copyfromXbartoGPU(0,1,0);
   //      pim::printNewRegMemory(0,256);
   //      printf("\n---------\n");
-        for(int i = 0;i < M*N;i++)
+/*        for(int i = 0;i < M*N;i++)
             host[i] = 2;
         pim::matrix_multiplication(host,M,N,Xstart,Xend,'G',256);
         //pim::copyfromXbartoGPU(0,1,);
@@ -52,7 +52,7 @@ int main(int argc, char **argv)
         pim::scalardivDr(520,540,4,4,4);
         //pim::softmaxDr(530,550,4,4);
         pim::printNewRegMemory(520,570);
-        //pim::GPUtoHost(40,50,h_vector);
+        //pim::GPUtoHost(40,50,h_vector);*/
         return 0;
 }
 

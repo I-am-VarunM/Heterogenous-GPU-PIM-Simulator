@@ -1,11 +1,15 @@
+#ifndef DRIVER_H
+#define DRIVER_H
 #include<cuda.h>
 #include <thrust/host_vector.h>
 #include <thrust/device_vector.h>
 #include<thrust/copy.h>
 #include "constants.h"
 #include "newsimpim.cuh"
+#include<cmath>
 #define TILE_WIDTH 16
 #define QUANT_BITS 4
+
 namespace pim
 {
 
@@ -77,16 +81,18 @@ void loadweightstopim(int* weightmatrix, RangeMask xbar_range,int num_rows,int n
 {
 int xbar_start = xbar_range.start.xbar_idx;
 int col_start = xbar_range.start.col_idx; 
-int cols_per_row = math.ceil(num_rows/Numberofrows);
+int cols_per_row = ceil(num_rows/Numberofrows);
 
 //Fill in the matrix column-wise in crossbar
 for(int col_idx = 0; col_idx < num_cols; col_idx ++)
 {
     //Copy the column into a padded std::vector to fill in the xbar
-    std::vector<int> weightmatrix_col(cols_per_row*Numberofrows,0);
+    int* weightmatrix_col = (int*)malloc(cols_per_row*Numberofrows);
     int i = 0;
     for(int idx = col_idx*Numberofrows; idx < (col_idx + 1)*Numberofrows; idx++)
         weightmatrix_col[i++] = weightmatrix[idx];
+    while(i < cols_per_row*Numberofrows)
+         weightmatrix_col[i++] = 0;
 
     //Copy into xbar
     int offset = xbar_start*Numberofcrossbar*Numberofcolumns + col_start*Numberofrows + cols_per_row*col_idx;
@@ -96,3 +102,4 @@ for(int col_idx = 0; col_idx < num_cols; col_idx ++)
 
 }
 }
+#endif

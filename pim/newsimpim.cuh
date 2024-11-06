@@ -7,11 +7,9 @@
 #include "constants.h"
 #define TILE_WIDTH 16
 #define QUANT_BITS 4
+
 namespace pim
 {
-    const int Numberofcolumns  = 256; // per crossbar
-    const int Numberofrows = 256; //per crossbar
-    const int Numberofcrossbar = 40;
     const int Numberofresults = (Numberofcolumns*NUM_BITS)/QUANT_BITS;
     thrust::device_vector<int> weightmemory(Numberofcrossbar*Numberofcolumns*Numberofrows);
     thrust::device_vector<float> d_smem(Numberofcrossbar*Numberofrows*Numberofcolumns);

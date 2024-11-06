@@ -2,6 +2,8 @@
 #define CUDAPIM_CONSTANTS_H
 
 #include <cstdint>
+#include <vector>
+typedef std::vector<std::vector<int>> std_mat;
 
 namespace pim {
 
@@ -13,9 +15,9 @@ namespace pim {
     
     const int Numberofcolumns = 256;
     const int Numberofrows = 256;
-    const int Numberofcrossbars = 20;
+    const int Numberofcrossbar = 20;
 
-    const int BUFFER_SIZE = Numberofcolumns*Numberofrows*Numberofcrossbars*20;
+    const int BUFFER_SIZE = Numberofcolumns*Numberofrows*Numberofcrossbar*20;
      /* Represents a generic range-based mask (e.g., {start, start + step, ..., stop}, inclusive)
      */
     struct RangeMask {
