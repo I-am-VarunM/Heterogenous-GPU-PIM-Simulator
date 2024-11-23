@@ -1,5 +1,6 @@
 # Heterogenous-GPU-PIM-Simulator
 ⚠️ Project Status: This project is currently under active development. Features and documentation are being continuously updated.
+
 A novel emulator that combines GPU capabilities with Processing-In-Memory (PIM) architecture, specifically designed for Large Language Model computations. The emulator features a configurable memristor-based crossbar array for efficient vector-matrix multiplications.
 Key Features
 
