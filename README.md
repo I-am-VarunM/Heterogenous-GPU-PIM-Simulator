@@ -12,13 +12,21 @@ Dedicated GPU module for Softmax and non-constant matrix multiplications
 Comprehensive API for crossbar interaction and customization
 
 ┌─────────────────────────────────────┐
+
 │           GPU-PIM Emulator          │
+
 ├───────────────┬─────────────────────┤
+
 │   GPU Module  │    PIM Module       │
+
 │ - Softmax     │  - Crossbar Array   │
+
 │ - Matrix Ops  │  - Vector-Matrix    │
+
 │               │    Multiplication   │
+
 └───────────────┴─────────────────────┘
+
 # Getting Started
 Prerequisites
 
